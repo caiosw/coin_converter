@@ -209,6 +209,6 @@ buildTextField(
     ),
     controller: controller,
     onChanged: function,
-    keyboardType: TextInputType.number,
+    keyboardType: TextInputType.numberWithOptions(decimal: true),
   );
 }
