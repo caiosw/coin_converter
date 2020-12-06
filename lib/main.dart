@@ -12,16 +12,16 @@ void main() async {
   runApp(MaterialApp(
     home: Home(),
     theme: ThemeData(
-      hintColor: Colors.green,
-      primaryColor: Colors.black,
+      hintColor: Colors.black,
+      primaryColor: Colors.green,
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green),
-        ),
-        focusedBorder:  OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black),
         ),
-        hintStyle: TextStyle(color: Colors.green)
+        focusedBorder:  OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.green),
+        ),
+        hintStyle: TextStyle(color: Colors.black)
       )
     ),
   ));
@@ -36,6 +36,21 @@ class _HomeState extends State<Home> {
   double dollar;
   double euro;
 
+  final realController = TextEditingController();
+  final dollarController = TextEditingController();
+  final euroController = TextEditingController();
+
+  void _realChanged(String text) {
+
+  }
+
+  void _dollarChanged(String text) {
+
+  }
+
+  void _euroChanged(String text) {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,46 +92,40 @@ class _HomeState extends State<Home> {
 
               return SingleChildScrollView(
                 padding: EdgeInsets.all(5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Icon(
-                      Icons.monetization_on,
-                      size: 100.0,
-                      color: Colors.green,
-                    ),
-                    Divider(),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "BRL (Brazilian Real)",
-                        labelStyle: TextStyle(color: Colors.green),
-                        border: OutlineInputBorder(),
-                        prefixText: "R\$"
+                child: Form(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Icon(
+                        Icons.monetization_on,
+                        size: 100.0,
+                        color: Colors.green,
                       ),
-                    ),
-                    Divider(),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: "USD (American Dollar)",
-                          labelStyle: TextStyle(color: Colors.green),
-                          border: OutlineInputBorder(),
-                          prefixText: "U\$"
+                      Divider(),
+                      buildTextField(
+                        "BRL (Brazilian Real)",
+                        "R\$",
+                        realController,
+                        _realChanged
                       ),
-                    ),
-                    Divider(),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: "EUR (Euro)",
-                          labelStyle: TextStyle(color: Colors.green),
-                          border: OutlineInputBorder(),
-                          prefixText: "€"
+                      Divider(),
+                      buildTextField(
+                        "USD (American Dollar)",
+                        "U\$",
+                        dollarController,
+                        _dollarChanged
                       ),
-                    ),
-                  ],
-                ),
+                      Divider(),
+                      buildTextField(
+                        "EUR (Euro)",
+                        "€",
+                        euroController,
+                        _euroChanged
+                      ),
+                    ],
+                  ),
+                )
               );
-
-
           }
         },
       ),
@@ -127,4 +136,23 @@ class _HomeState extends State<Home> {
 Future<Map> getData() async {
   http.Response response = await http.get(request);
   return json.decode(response.body);
+}
+
+buildTextField(
+  String label,
+  String prefix,
+  TextEditingController controller,
+  Function function
+) {
+  return TextFormField(
+    decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.green),
+        border: OutlineInputBorder(),
+        prefixText: prefix,
+    ),
+    controller: controller,
+    onChanged: function,
+    keyboardType: TextInputType.number,
+  );
 }
