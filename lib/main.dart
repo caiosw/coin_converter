@@ -40,16 +40,43 @@ class _HomeState extends State<Home> {
   final dollarController = TextEditingController();
   final euroController = TextEditingController();
 
-  void _realChanged(String text) {
+  void _clearAllTextFields() {
+    realController.text = "";
+    dollarController.text = "";
+    euroController.text = "";
+  }
 
+  void _realChanged(String text) {
+    if (text.isEmpty) {
+      _clearAllTextFields();
+      return;
+    }
+
+    double real = double.parse(text);
+    dollarController.text = (real/dollar).toStringAsFixed(2);
+    euroController.text = (real/euro).toStringAsFixed(2);
   }
 
   void _dollarChanged(String text) {
+    if (text.isEmpty) {
+      _clearAllTextFields();
+      return;
+    }
 
+    double dollar = double.parse(text);
+    realController.text = (dollar * this.dollar).toStringAsFixed(2);
+    euroController.text = (dollar * this.dollar / euro).toStringAsFixed(2);
   }
 
   void _euroChanged(String text) {
+    if (text.isEmpty) {
+      _clearAllTextFields();
+      return;
+    }
 
+    double euro = double.parse(text);
+    realController.text = (euro * this.euro).toStringAsFixed(2);
+    dollarController.text = (euro * this.euro / dollar).toStringAsFixed(2);
   }
 
   @override
@@ -104,21 +131,21 @@ class _HomeState extends State<Home> {
                       Divider(),
                       buildTextField(
                         "BRL (Brazilian Real)",
-                        "R\$",
+                        "R\$ ",
                         realController,
                         _realChanged
                       ),
                       Divider(),
                       buildTextField(
                         "USD (American Dollar)",
-                        "U\$",
+                        "U\$ ",
                         dollarController,
                         _dollarChanged
                       ),
                       Divider(),
                       buildTextField(
                         "EUR (Euro)",
-                        "€",
+                        "€ ",
                         euroController,
                         _euroChanged
                       ),
