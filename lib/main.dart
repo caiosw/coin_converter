@@ -7,7 +7,7 @@ const request = "https://api.hgbrasil.com/finance?format=json&key=2c275b03";
 // key with limited requests per day
 
 void main() async {
-  //print(["results"]["currencies"]);
+
 
   runApp(MaterialApp(
     home: Home(),
@@ -85,8 +85,12 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text("\$ Coin Converter"),
-        centerTitle: true,
+        leading: Icon(
+          Icons.monetization_on,
+          color: Colors.white,
+        ),
+        title: Text("Coin Converter"),
+
       ),
       body: FutureBuilder<Map>(
         future: getData(),
@@ -118,17 +122,12 @@ class _HomeState extends State<Home> {
               euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
 
               return SingleChildScrollView(
-                padding: EdgeInsets.all(5.0),
+                padding: EdgeInsets.all(10.0),
                 child: Form(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Icon(
-                        Icons.monetization_on,
-                        size: 100.0,
-                        color: Colors.green,
-                      ),
-                      Divider(),
+                      Divider(height: 5.0,),
                       buildTextField(
                         "BRL (Brazilian Real)",
                         "R\$ ",
